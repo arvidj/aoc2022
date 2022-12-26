@@ -1,6 +1,5 @@
-(executable
- (public_name aoc2022_ex1)
- (name main_ex1)
+(executables
+ (names main_ex1 main_ex1_rec)
  (libraries aoc2022))
 
 (env
