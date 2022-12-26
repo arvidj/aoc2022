@@ -6,8 +6,12 @@ Contains an entry to Advent of Code 2022 written in OCaml.
 
  - [bin/main_ex1.ml](bin/main_ex1.ml): An imperative solution for day 1
  - [bin/main_ex1_rec.ml](bin/main_ex1_rec.ml): A recursive version of day 1
+ - [bin/main_ex1_1_rec.ml](bin/main_ex1_rec.ml): A recursive version
+   of day 1, also computing part two.
 
 ### Running
+
+E.g.:
 
 ```shell
 dune exec bin/main_ex1.exe -- input_file.txt

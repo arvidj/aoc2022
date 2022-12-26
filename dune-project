@@ -19,7 +19,7 @@
  (name aoc2022)
  (synopsis "Entry in Advent of code 2022")
  (description "Entry in Advent of code 2022")
- (depends ocaml dune)
+ (depends ocaml dune ppx_expect)
  (tags
   (topics "aoc2022")))
 

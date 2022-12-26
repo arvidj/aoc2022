@@ -1,2 +1,5 @@
 (library
- (name aoc2022))
+ (name aoc2022)
+ (preprocess
+  (pps ppx_expect))
+ (libraries ppx_expect))
