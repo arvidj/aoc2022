@@ -1,0 +1,9 @@
+(executable
+ (public_name aoc2022_ex1)
+ (name main_ex1)
+ (libraries aoc2022))
+
+(env
+ (dev
+  (flags
+   (:standard -w -69))))
