@@ -5,6 +5,16 @@ let with_file_in path f =
     close_in channel;
     raise x
 
+let iter_lines path f =
+  with_file_in path @@ fun channel ->
+  try
+    while true do
+      f (input_line channel)
+    done
+  with End_of_file ->
+    close_in channel;
+    ()
+
 let sum lst = List.fold_left ( + ) 0 lst
 let min a b = if a < b then a else b
 let max a b = if a > b then a else b
@@ -25,12 +35,12 @@ let%expect_test "test insert_sorted" =
   in
   let test n ls = pp_int_list (insert_sorted n ls) in
   test 1 [];
-  [%expect {| Ok (Var "FOO_BAR") |}];
+  [%expect {| [1] |}];
   test 1 [ 1; 2; 3 ];
-  [%expect {| Ok (Var "FOO_BAR") |}];
+  [%expect {| [1, 1, 2, 3] |}];
   test 4 [ 1; 2; 3 ];
-  [%expect {| Ok (Var "FOO_BAR") |}];
+  [%expect {| [1, 2, 3, 4] |}];
   test 0 [ 1; 2; 3 ];
-  [%expect {| Ok (Var "FOO_BAR") |}];
+  [%expect {| [0, 1, 2, 3] |}];
   test 2 [ 1; 2; 3 ];
-  [%expect {| Ok (Var "FOO_BAR") |}]
+  [%expect {| [1, 2, 2, 3] |}]

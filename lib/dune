@@ -2,4 +2,5 @@
  (name aoc2022)
  (preprocess
   (pps ppx_expect))
+ (inline_tests)
  (libraries ppx_expect))
