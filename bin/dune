@@ -1,5 +1,11 @@
 (executables
- (public_names main_ex1 main_ex1_rec main_ex1_1_rec main_ex2 main_ex2_2)
+ (public_names
+  main_ex1
+  main_ex1_rec
+  main_ex1_1_rec
+  main_ex2
+  main_ex2_2
+  main_ex3)
  (package aoc2022)
  (libraries aoc2022))
 

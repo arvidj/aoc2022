@@ -1,2 +1,9 @@
-(test
- (name aoc2022))
+(tests
+ (names test_aoc2022)
+ (modules test_aoc2022)
+ (libraries aoc2022 qcheck benchmark))
+
+(executable
+ (name benchmark_bitset)
+ (modules benchmark_bitset)
+ (libraries aoc2022 benchmark))
