@@ -17,6 +17,13 @@ let iter_lines path f =
     close_in channel;
     ()
 
+let rec repeat (n : int) (f : unit -> unit) : unit =
+  if n < 0 then raise (Invalid_argument "[repeat]");
+  if n = 0 then ()
+  else (
+    f ();
+    repeat (n - 1) f)
+
 let fold_lines (path : string) (acc : 'a) (f : 'a -> string -> 'a) : 'a =
   with_file_in path @@ fun channel ->
   let rec aux acc =
