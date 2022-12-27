@@ -17,6 +17,18 @@ let iter_lines path f =
     close_in channel;
     ()
 
+let fold_lines (path : string) (acc : 'a) (f : 'a -> string -> 'a) : 'a =
+  with_file_in path @@ fun channel ->
+  let rec aux acc =
+    try
+      let acc' = f acc (input_line channel) in
+      aux acc'
+    with End_of_file ->
+      close_in channel;
+      acc
+  in
+  aux acc
+
 let iter_lines3 path f =
   with_file_in path @@ fun channel ->
   try
