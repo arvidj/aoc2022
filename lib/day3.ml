@@ -59,7 +59,29 @@ module BitsetArray = struct
       bsa.(slot) <- Bitset.get bs slot
     done;
     bsa
+
+  let intersection (rs1 : t) (rs2 : t) : t =
+    let rs = empty () in
+    for slot = 0 to slot_max do
+      rs.(slot) <- get rs1 slot && get rs2 slot
+    done;
+    rs
+
+  let contents (rs : t) : int list =
+    let rec aux acc slot =
+      if slot < 0 then acc
+      else aux (if get rs slot then slot :: acc else acc) (slot - 1)
+    in
+    aux [] slot_max
 end
+
+let slot_of_item c = prio c - 1
+let prio_of_slot slot = slot + 1
+
+let rucksack_of_string (str : string) : BitsetArray.t =
+  let rs = BitsetArray.empty () in
+  String.iter (fun item -> BitsetArray.set rs (slot_of_item item)) str;
+  rs
 
 let prio_of_line (line : string) : int =
   let len = String.length line in
@@ -69,9 +91,7 @@ let prio_of_line (line : string) : int =
   else
     let len2 = len / 2 in
     let left, right = String.(sub line 0 len2, sub line len2 len2) in
-    let slot_of_item c = prio c - 1 in
-    let rs_left = BitsetArray.empty () in
-    String.iter (fun item -> BitsetArray.set rs_left (slot_of_item item)) left;
+    let rs_left = rucksack_of_string left in
     let rec loop idx =
       if idx >= len2 then
         raise
@@ -101,3 +121,31 @@ let%expect_test "test [prio_of_line]" =
   [%expect {| Prio of ttgJtRGJQctTZtZT: 20 |}];
   test "CrZsJsPPZsGzwwsLwLmpwMDw";
   [%expect {| Prio of CrZsJsPPZsGzwwsLwLmpwMDw: 19 |}]
+
+let prio_of_elf_group ((line1, line2, line3) : string * string * string) : int =
+  let rs1 = rucksack_of_string line1 in
+  let rs2 = rucksack_of_string line2 in
+  let rs3 = rucksack_of_string line3 in
+  let rs = BitsetArray.(intersection rs1 (intersection rs2 rs3)) in
+  match BitsetArray.contents rs with
+  | [ slot ] -> prio_of_slot slot
+  | _ ->
+      raise
+        (Invalid_argument
+           (sf "The lines\n%s\n%s\n%s\nhave no common item" line1 line2 line3))
+
+let%expect_test "test [prio_of_elf_group]" =
+  let test (l1, l2, l3) =
+    Printf.printf "Prio of %s, %s, %s: %d\n" l1 l2 l3
+      (prio_of_elf_group (l1, l2, l3))
+  in
+  test
+    ( "vJrwpWtwJgWrhcsFMMfFFhFp",
+      "jqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL",
+      "PmmdzqPrVvPwwTWBwg" );
+  [%expect {| Prio of vJrwpWtwJgWrhcsFMMfFFhFp, jqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL, PmmdzqPrVvPwwTWBwg: 18 |}];
+  test
+    ( "wMqvLMZHhHMvwLHjbvcjnnSBnvTQFn",
+      "ttgJtRGJQctTZtZT",
+      "CrZsJsPPZsGzwwsLwLmpwMDw" );
+  [%expect {| Prio of wMqvLMZHhHMvwLHjbvcjnnSBnvTQFn, ttgJtRGJQctTZtZT, CrZsJsPPZsGzwwsLwLmpwMDw: 52 |}]

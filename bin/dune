@@ -5,7 +5,8 @@
   main_ex1_1_rec
   main_ex2
   main_ex2_2
-  main_ex3)
+  main_ex3
+  main_ex3_2)
  (package aoc2022)
  (libraries aoc2022))
 
