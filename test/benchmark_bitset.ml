@@ -1,5 +1,5 @@
 open Benchmark
-open Aoc2022.Day3
+open Day3
 
 let benchmark_bitset n =
   let st = Random.State.make [||] in

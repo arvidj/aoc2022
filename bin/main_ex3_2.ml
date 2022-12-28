@@ -1,5 +1,4 @@
-open Aoc2022.Base
-open Aoc2022.Day3
+open Day3
 
 let () =
   match Sys.argv with

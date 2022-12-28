@@ -1,5 +1,4 @@
-open Aoc2022.Base
-open Aoc2022.Day7
+open Day7
 
 type file = Dir of string | File of (string * int)
 type command = Cd_dir of string | Cd_parent | Cd_root | Ls of file list

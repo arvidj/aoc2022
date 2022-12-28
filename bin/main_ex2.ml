@@ -1,5 +1,3 @@
-open Aoc2022.Base
-
 type shape = Rock | Paper | Scissors
 
 let their_shape_of_string = function

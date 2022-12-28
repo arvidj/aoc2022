@@ -1,5 +1,3 @@
-open Aoc2022.Base
-
 type shape = Rock | Paper | Scissors
 type outcome = You_win | They_win | Draw
 

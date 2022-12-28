@@ -1,5 +1,3 @@
-open Aoc2022.Base
-
 type elf = { index : int; cals : int }
 
 let () =

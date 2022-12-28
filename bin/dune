@@ -12,7 +12,8 @@
   main_ex6
   main_ex7)
  (package aoc2022)
- (libraries aoc2022))
+ (libraries aoc2022)
+ (flags (:standard) -open Aoc2022 -open Aoc2022.Base))
 
 (env
  (dev

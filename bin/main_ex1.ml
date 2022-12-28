@@ -1,5 +1,3 @@
-open Aoc2022.Base
-
 type elf = { mutable index : int; mutable cals : int }
 
 let () =

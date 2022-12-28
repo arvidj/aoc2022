@@ -1,5 +1,5 @@
-module Day3 = struct
-  open Aoc2022.Day3
+module Test_Day3 = struct
+  open Day3
 
   let slot = QCheck.int_bound Bitset.slot_max
 
@@ -50,8 +50,8 @@ module Day3 = struct
   let tests = [ test_bitset_get_set; test_bitset_array_get_set ]
 end
 
-module Day6 = struct
-  open Aoc2022.Day6
+module Test_Day6 = struct
+  open Day6
 
   let check b msg = if not b then QCheck.Test.fail_report msg
 
@@ -112,4 +112,4 @@ module Day6 = struct
   let tests = [ test_add_rem; test_add; test_invariant; test_invariant2 ]
 end
 
-let () = QCheck_runner.run_tests_main (Day3.tests @ Day6.tests)
+let () = QCheck_runner.run_tests_main (Test_Day3.tests @ Test_Day6.tests)

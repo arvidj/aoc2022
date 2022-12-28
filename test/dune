@@ -1,9 +1,11 @@
 (tests
  (names test_aoc2022)
  (modules test_aoc2022)
- (libraries aoc2022 qcheck benchmark))
+ (libraries aoc2022 qcheck benchmark)
+ (flags (:standard) -open Aoc2022 -open Aoc2022.Base))
 
 (executable
  (name benchmark_bitset)
  (modules benchmark_bitset)
- (libraries aoc2022 benchmark))
+ (libraries aoc2022 benchmark)
+ (flags (:standard) -open Aoc2022 -open Aoc2022.Base))

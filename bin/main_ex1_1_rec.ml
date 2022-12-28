@@ -1,5 +1,3 @@
-open Aoc2022.Base
-
 type inventory = (int * int) list
 
 let read_inventory (input_path : string) : inventory =

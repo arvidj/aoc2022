@@ -1,5 +1,3 @@
-open Aoc2022.Base
-
 type stacks = char Stack.t Array.t
 type state = Initializing of string list | Rearranging of stacks
 
