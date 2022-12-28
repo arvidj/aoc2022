@@ -17,6 +17,18 @@ let iter_lines path f =
     close_in channel;
     ()
 
+let lines_seq (path : string) (f : string Seq.t -> unit) : unit =
+  with_file_in path @@ fun channel ->
+  let rec aux () : string Seq.t =
+    try
+      let line = input_line channel in
+      Seq.cons line (aux ())
+    with End_of_file ->
+      close_in channel;
+      Seq.empty
+  in
+  f (aux ())
+
 let rec repeat (n : int) (f : unit -> unit) : unit =
   if n < 0 then raise (Invalid_argument "[repeat]");
   if n = 0 then ()
@@ -83,3 +95,7 @@ let%expect_test "test insert_sorted" =
   [%expect {| [0, 1, 2, 3] |}];
   test 2 [ 1; 2; 3 ];
   [%expect {| [1, 2, 2, 3] |}]
+
+let hashtbl_update ~default tbl key f =
+  Hashtbl.replace tbl key
+  @@ match Hashtbl.find_opt tbl key with None -> f default | Some v -> f v

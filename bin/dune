@@ -9,7 +9,8 @@
   main_ex3_2
   main_ex4
   main_ex5
-  main_ex6)
+  main_ex6
+  main_ex7)
  (package aoc2022)
  (libraries aoc2022))
 
