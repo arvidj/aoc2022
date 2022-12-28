@@ -43,14 +43,36 @@ let marker_pos line len =
   aux 0
 
 let pp_marker line marker len =
-  Printf.printf "%s\n" line;
+  let padding = "..." in
+  let prefix = 2 in
+  let marker', visible_line =
+    if marker > 80 then
+      let marker' = String.length padding + 1 + len + prefix in
+      let visible_line =
+        String.sub line (marker - prefix)
+          (String.length line - (marker + prefix))
+      in
+      (marker', padding ^ " " ^ visible_line)
+    else (marker, line)
+  in
+  let visible_line =
+    if String.length visible_line > 80 then
+      String.sub visible_line 0 80 ^ " " ^ padding
+    else visible_line
+  in
+  Printf.printf "%s\n" visible_line;
   Printf.printf "%s%s%s (%d)\n"
-    (String.make (marker - len) ' ')
+    (String.make (marker' - len) ' ')
     (String.make (len - 1) '~')
     "^" marker
 
-let%expect_test "test [overlaps]" =
-  let test line = pp_marker line (marker_pos line 4) 4 in
+let start_of_packet = 4
+let start_of_message = 14
+
+let%expect_test "test [start_of_packet]" =
+  let test line =
+    pp_marker line (marker_pos line start_of_packet) start_of_packet
+  in
   test "bvwbjplbgvbhsrlpgdmjqwftvncz";
   [%expect {|
     bvwbjplbgvbhsrlpgdmjqwftvncz
@@ -67,3 +89,33 @@ let%expect_test "test [overlaps]" =
   [%expect {|
     zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw
            ~~~^ (11) |}]
+
+let%expect_test "test [start_of_message]" =
+  let test line =
+    pp_marker line (marker_pos line start_of_message) start_of_message
+  in
+  test "mjqjpqmgbljsphdztnvjfqwrcgsmlb";
+  [%expect
+    {|
+    mjqjpqmgbljsphdztnvjfqwrcgsmlb
+         ~~~~~~~~~~~~~^ (19) |}];
+  test "bvwbjplbgvbhsrlpgdmjqwftvncz";
+  [%expect
+    {|
+    bvwbjplbgvbhsrlpgdmjqwftvncz
+             ~~~~~~~~~~~~~^ (23) |}];
+  test "nppdvjthqldpwncqszvftbrmjlhg";
+  [%expect
+    {|
+    nppdvjthqldpwncqszvftbrmjlhg
+             ~~~~~~~~~~~~~^ (23) |}];
+  test "nznrnfrfntjfmvfwmzdfjlvtqnbhcprsg";
+  [%expect
+    {|
+    nznrnfrfntjfmvfwmzdfjlvtqnbhcprsg
+                   ~~~~~~~~~~~~~^ (29) |}];
+  test "zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw";
+  [%expect
+    {|
+    zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw
+                ~~~~~~~~~~~~~^ (26) |}]
