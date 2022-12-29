@@ -1,5 +1,10 @@
 let sf = Printf.sprintf
 
+let range (a : int) (b : int) : int list =
+  if b - a < 0 then [] else List.init (b - a) (fun i -> a + i)
+
+let ( -- ) = range
+
 let with_file_in path f =
   let channel = open_in path in
   try f channel
@@ -47,6 +52,9 @@ let fold_lines (path : string) (acc : 'a) (f : 'a -> string -> 'a) : 'a =
       acc
   in
   aux acc
+
+let get_lines (path : string) : string list =
+  fold_lines path [] (fun acc line -> line :: acc) |> List.rev
 
 let iter_lines3 path f =
   with_file_in path @@ fun channel ->
