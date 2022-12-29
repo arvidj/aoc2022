@@ -1,6 +1,6 @@
 (tests
- (names test_aoc2022)
- (modules test_aoc2022)
+ (names test_day3 test_day6 test_day8)
+ (modules common test_day3 test_day6 test_day8)
  (libraries aoc2022 qcheck benchmark)
  (flags (:standard) -open Aoc2022 -open Aoc2022.Base))
 
